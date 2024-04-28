@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import Chart from 'chart.js/auto';
+import { Component, OnInit } from '@angular/core';
+import { Chart, registerables } from 'chart.js/auto';
 import { ChartService } from './service/chart.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { ChartService } from './service/chart.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ng-chart';
   chart: any = [];
   result: any;
@@ -22,16 +22,34 @@ export class AppComponent {
       this.coinPrice = this.result.data.coins.map((coins: any) => coins.price);
       this.coinName = this.result.data.coins.map((coins: any) => coins.name);
 
+      console.log(this.result);
+
       this.chart = new Chart('canvas', {
         type: 'bar',
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+        },
         data: {
           labels: this.coinName,
           datasets: [
             {
               data: this.coinPrice,
-              borderColor: '#3e95cd',
+              borderColor: 'yellow',
               label: 'Coin Price',
-              backgroundColor: 'rgba(93, 175, 89, 0.1)',
+              backgroundColor: 'orange',
               borderWidth: 1,
             },
           ],
